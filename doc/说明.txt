@@ -1,0 +1,92 @@
+﻿
+
+1.程序入口 jgh.hive.SparkReadHdfsToHive
+
+参数:2015-12-03 test 2
+
+说明：读取hdfs文件，写入到hive表中.hive表分区字段为（天，小时）
+
+2.程序入口 jgh.hive.SparkOnHiveSql
+
+参数：无
+
+说明:读取hive表数据，通过自定义sql查询，统计结果写入hdfs
+
+
+hive建表语句：
+
+CREATE TABLE jgh.advertisers(
+ addrCode         STRING ,  
+ advertisersId       INT ,  
+ agent   STRING,
+ browser      STRING,
+ campaignId   INT,
+ city STRING,
+ country STRING,
+ creativeId INT,
+ impId STRING,
+ ip STRING,
+ os STRING,
+ pageUri STRING,
+ price BIGINT,
+ priceType STRING,
+ projectId INT,
+ province STRING,
+ publisherId INT,
+ reqType INT,
+ runTime BIGINT,
+ sessionId STRING,
+ siteId INT,
+ slotId STRING,
+ source STRING,
+ templateId INT,
+ timestamp BIGINT,
+ uid STRING,
+ v STRING,
+ vBalanceCostPrecent STRING
+)
+PARTITIONED BY(date STRING,hour INT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '$' LINES TERMINATED BY '\n' STORED AS TEXTFILE;  
+
+
+
+
+//执行 jgh.hive.SparkReadHdfsToHive 
+读取源数据地址：/hive/warehouse/adnet_da_report.db/cogtu_log/date=2015-12-03
+写出目标数据地址：/hive/warehouse/jgh.db/advertisers/date=2015-12-03
+写入hdfs，字段默认分隔符为('$')数据样例：
+$0$python-requests/2.8.1$null$0$$局域网$0$http://i1.sinaimg.cn/gm/cr/2015/0120/3208125749.jpg$172.16.1.18$unknown$http://urlproxy.cogtuapi.com/p__172.16.20.3/games.sina.com.cn/j/h/2015-01-20/144623027.shtml$0$CPM$0$局域网$2$1$14$c6b1b4a8-e210-4e6a-aadc-3c5c35600f01$3$ct-00000000-0$null$0$1449111930283$55f2b772.4827733$1.1$1$
+
+
+//执行  jgh.hive.SparkOnHiveSql
+参数如下：
+HashMap<String, String> queryField = new HashMap<String, String>();
+	 queryField.put("hour", "11"); //查询语句条件项
+	String groupField = "date,country,province,city"; //查询语句分组字段
+	String resultField = "pv,click,date,country,province,city"; //查询语句展现项
+	String tableName = "jgh.advertisers";//表空间与表名
+	String orderField = "pv";//排序字段。默认desc
+	
+执行sql语句如下：
+select sum(case when reqtype=2 then 1 else 0 end) as pv ,  sum(case when reqtype=3 then 1 else 0 end) as click,date,country,province,city from jgh.advertisers where hour='11' group by date,country,province,city order by pv desc
+
+读取数据表：jgh.advertisers
+
+写入hdfs数据样例：
+{"tableName":"advertisers","space":"jgh","resultMap":{"date":"2015-12-03","country":"局域网","province":"局域网","city":"","pv":"3239","click":"0"},"groupField":"date,country,province,city","orderField":"pv","queryField":"{hour=11}"}
+
+
+
+参数如下：
+HashMap<String, String> queryField = new HashMap<String, String>();
+	String groupField = "date,country,province,city"; //查询语句分组字段
+	String resultField = "pv,click,date,country,province,city"; //查询语句展现项
+	String tableName = "jgh.advertisers";//表空间与表名
+	String orderField = "pv";//排序字段。默认desc
+	
+执行sql语句如下：
+select sum(case when reqtype=2 then 1 else 0 end) as pv , sum(case when reqtype=3 then 1 else 0 end) as click , date, country, province, city from jgh.advertisers  group by date,country,province,city order by pv desc
+
+写入hdfs数据样例：
+{"tableName":"advertisers","space":"jgh","resultMap":{"date":"2015-12-03","country":"局域网","province":"局域网","city":"","pv":"132057","click":"0"},"groupField":"date,country,province,city","orderField":"pv"}
+{"tableName":"advertisers","space":"jgh","resultMap":{"date":"2015-12-03","country":"中国","province":"山东","city":"烟台","pv":"933","click":"17"},"groupField":"date,country,province,city","orderField":"pv"}

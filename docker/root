@@ -1,0 +1,1 @@
+*/1 * * * * /usr/local/spark/bin/spark-submit --class offline.OfflineAnalysisRun --master yarn-client --num-executors 4 --driver-memory 4g --executor-memory 2g --executor-cores 1  /usr/local/adnet-da-report/target/adnet-da-report-v1.1.3-jar-with-dependencies.jar

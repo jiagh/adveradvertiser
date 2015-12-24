@@ -1,0 +1,39 @@
+
+说明：
+文件读取位置：
+hdfs://iZ25n47niewZ:9900/hive/warehouse/adnet_da_report.db/cogtu_log/date=2015-12-03
+
+读取文件样例：
+{"addrCode":"370600","agent":"Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.99 Safari/537.36 2345Explorer/6.4.0.10356","browser":"Chrome|39","city":"烟台","country":"中国","ip":"223.81.192.25","os":"Windows XP","pageUri":"http://sports.sina.com.cn/china/j/2015-12-02/doc-ifxmazmz9081592.shtml","province":"山东","publisherId":1,"reqType":3,"reqs":[{"advertisersId":237,"campaignId":455,"creativeId":553,"impId":"http://k.sinaimg.cn/n/sports/transform/20151202/un7J-fxmazmy2345335.jpg/w5702a7.jpg","price":3000,"priceType":"CPM","projectId":87,"templateId":14}],"runTime":10,"sessionId":"b32ac2f0-5fa5-4079-ae00-3cb888199f2e","siteId":2,"slotId":"ct-11578134-1","source":"req","timestamp":1449142616581,"uid":"56602c2a.4ab2d7da66","v":"1.1","vBalanceCostPrecent":1}
+
+按10分钟时段统计，统计结果位置：
+hdfs://iZ25n47niewZ:9900/adnet-da-report/logsMergeWork/jgh
+统计样例:
+{"url":"http://urlproxy.cogtuapi.com/p__172.16.20.3/games.sina.com.cn/w/y/2015-07-14/fxewxfu4162114.shtml","firstTime":"2015-12-03 14:32:05","maxTimeBucket":{"timeEnd":"2015-12-03 14:40","timeStart":"2015-12-03 14:30"},"maxcount":10,"firstLowTimeBucket":{"timeEnd":"2015-12-03 14:50","timeStart":"2015-12-03 14:40"},"threshold":2}
+
+"url":"http://urlproxy.cogtuapi.com/p__172.16.20.3/games.sina.com.cn/w/y/2015-07-14/fxewxfu4162114.shtml"
+原始文件pageuri
+"firstTime":"2015-12-03 11:32:05"
+url第一次出现时间
+"maxTimeBucket":{"timeEnd":"2015-12-03 14:40","timeStart":"2015-12-03 14:30"}
+按10分钟时段统计，出现次数最多的10分钟
+"maxcount":10
+10分钟内出现最多次数
+"threshold":2 
+设置最低阀值
+"firstLowTimeBucket":{"timeEnd":"2015-12-03 14:50","timeStart":"2015-12-03 14:40"}
+第一次出现小于指定次数的时段
+
+注：当传入最低阀值大于或等于最大出现次数时，firstLowTimeBucket值为maxTimeBucket
+
+主程序入口：
+jgh.url.PageUrlInfo 参数：args[0]='2015-12-03' args[1]=2
+
+args[0] ：解析某日文件
+args[1] : 设置最低阀值
+
+
+
+
+ 
+ 
