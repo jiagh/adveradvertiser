@@ -10,7 +10,6 @@ public class JsonUtil {
 
 	private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	private static final ObjectMapper mapper;
-
 	static {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
 		mapper = new ObjectMapper();
