@@ -8,10 +8,10 @@ import java.util.HashMap;
 public class DateUtil {
 
     /**
-     * 时间戳转日期字符串
-     * 
-     * @param timestamp
-     * @return
+     * 时间戳转日期字符串.
+     *
+     * @param timestamp the timestamp
+     * @return the string
      */
     public static String timeStampToDate(long timestamp) {
 	Timestamp ts = new Timestamp(timestamp);
@@ -88,7 +88,13 @@ public class DateUtil {
 	return minTime;
     }
 
-    //字符串时间比较，返回较小值
+    /**
+     * 字符串时间比较，返回较小值.
+     *
+     * @param time1 the time1
+     * @param time2 the time2
+     * @return the min
+     */
     public static String getMin(String time1, String time2) {
 	if (Timestamp.valueOf(time1 + ":00").getTime() < Timestamp.valueOf(time2 + ":00").getTime()) {
 	    return time1;
@@ -98,6 +104,12 @@ public class DateUtil {
     }
     
     
+    /**
+     * Gets the time bucket.
+     *
+     * @param time the time
+     * @return the time bucket
+     */
     public static HashMap<String,String> getTimeBucket(String time) {
 	Long timeStart=Timestamp.valueOf(time + ":00").getTime();
 	Long timeEnd=timeStart+600*1000;

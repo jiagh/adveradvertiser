@@ -28,5 +28,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="D:/tusmiple/local jar/_mylib_spark-assembly-1.5.0-hadoop2.6.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/user/Downloads/spark-1.3.1-bin-hadoop1/spark-1.3.1-bin-hadoop1/lib/datanucleus-api-jdo-3.2.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/user/Downloads/spark-1.3.1-bin-hadoop1/spark-1.3.1-bin-hadoop1/lib/datanucleus-core-3.2.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/user/Downloads/spark-1.3.1-bin-hadoop1/spark-1.3.1-bin-hadoop1/lib/datanucleus-rdbms-3.2.9.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
