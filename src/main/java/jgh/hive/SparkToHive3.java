@@ -18,7 +18,7 @@ import jgh.util.MysqlUtil;
 /**
  * The Class SparkToHive.
  */
-public class SparkToHive {
+public class SparkToHive3 {
 
     /**
      * 加载hdfs文件，进行报表统计，写入mysql
@@ -26,11 +26,10 @@ public class SparkToHive {
     @SuppressWarnings("serial")
     public static void extuceHiveSql() {
 	SparkConf sparkConf = new SparkConf().setAppName("JavaSparkSQL").setMaster("local[8]");
-		//.setMaster("local[8]");
 	JavaSparkContext ctx = new JavaSparkContext(sparkConf);
 	HiveContext sqlContext = new HiveContext(ctx.sc());
 	MysqlUtil mu = new MysqlUtil();
-	ArrayList<HashMap<String, Object>> list = mu.selectSql("SELECT * FROM offline_basic_analysis.customize_report_info WHERE status='N' ");
+	ArrayList<HashMap<String, Object>> list = mu.selectSql("select * from offline_basic_analysis.customize_report_info where status='N' ");
 	for (final HashMap<String, Object> map : list) {
 	    Long t = System.currentTimeMillis();
 	    String startTime = DateUtil.timeStampToDate(t);
@@ -45,6 +44,7 @@ public class SparkToHive {
 		    int flag = 0;
 		    @Override
 		    public void call(Iterator<Row> t) throws Exception {
+			ArrayList<String> sqlList=new ArrayList<String>();
 			while (t.hasNext()) {
 			    Row row = (Row) t.next();
 			    StringBuilder displayBuilder = new StringBuilder();
@@ -60,7 +60,7 @@ public class SparkToHive {
 			    String dispaly = displayBuilder.toString();
 			    String disValue = disValueBuilder.toString();
 			    if (flag == 0) {
-				insertSql.append("INSERT INTO offline_basic_analysis.report_").append(map.get("id")).append("(")
+				insertSql.append("insert into offline_basic_analysis.report_").append(map.get("id")).append("(")
 					.append(dispaly.substring(0, dispaly.lastIndexOf(","))).append(")").append(" values").append("(")
 					.append(disValue.substring(0, disValue.lastIndexOf(","))).append(")");
 			    } else {
@@ -80,13 +80,13 @@ public class SparkToHive {
 		    MysqlUtil db = new MysqlUtil();
 		    db.insertSql(insertSql.append(";").toString());
 		}
-		String sql = "UPDATE offline_basic_analysis.customize_report_info SET creat_time='" + startTime + "',update_time='"
-			+ DateUtil.timeStampToDate(System.currentTimeMillis()) + "' , status='Y' WHERE id=" + map.get("id");
+		String sql = "update offline_basic_analysis.customize_report_info set creat_time='" + startTime + "',update_time='"
+			+ DateUtil.timeStampToDate(System.currentTimeMillis()) + "' , status='Y' where id=" + map.get("id");
 		mu.insertSql(sql);
 	    } catch (Exception ex) {
 		ex.printStackTrace();
-		String sql = "UPDATE offline_basic_analysis.customize_report_info SET creat_time='" + startTime + "',update_time='"
-			+ DateUtil.timeStampToDate(System.currentTimeMillis()) + "' , status='E' WHERE id=" + map.get("id");
+		String sql = "update offline_basic_analysis.customize_report_info set creat_time='" + startTime + "',update_time='"
+			+ DateUtil.timeStampToDate(System.currentTimeMillis()) + "' , status='E' where id=" + map.get("id");
 		mu.insertSql(sql);
 	    }
 

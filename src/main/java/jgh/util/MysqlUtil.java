@@ -2,13 +2,13 @@ package jgh.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import config.Config;
 
 public class MysqlUtil {
@@ -98,7 +98,6 @@ public class MysqlUtil {
     public int insertSql(String sql) {
 
 	try {
-	    System.out.println(sql);
 	    // 链接数据库
 	    mysqlConn();
 	    if (sm == null)
