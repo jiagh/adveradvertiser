@@ -107,7 +107,6 @@ public class SparkToHive {
 
     /**
      * 获取统计项字段
-     * 
      * @param index
      *            the index
      * @return the index map

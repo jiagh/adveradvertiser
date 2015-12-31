@@ -20,7 +20,7 @@ public class DateUtil {
     }
 
     public static String getDayFormat(long timestamp) {
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH");
 	return sdf.format(timestamp);
     }
 

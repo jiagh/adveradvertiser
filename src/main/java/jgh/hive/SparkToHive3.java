@@ -36,6 +36,7 @@ public class SparkToHive3 {
 	    HashMap<String, String> sqlMap = SqlUtil.builderSql(map);
 	    final String display[] = sqlMap.get("resultField").split(",");
 	    try {
+		System.out.println("=================>"+sqlMap.get("extuceSql"));
 		DataFrame dataFrame = sqlContext.sql(sqlMap.get("extuceSql"));
 		SqlUtil.createTable(map);
 		final StringBuilder insertSql = new StringBuilder();
@@ -44,7 +45,6 @@ public class SparkToHive3 {
 		    int flag = 0;
 		    @Override
 		    public void call(Iterator<Row> t) throws Exception {
-			ArrayList<String> sqlList=new ArrayList<String>();
 			while (t.hasNext()) {
 			    Row row = (Row) t.next();
 			    StringBuilder displayBuilder = new StringBuilder();

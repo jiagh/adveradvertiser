@@ -10,7 +10,7 @@ import jgh.util.MysqlUtil;
 /**
  * The Class SqlUtil.
  */
-public class SqlUtil {
+public class SqlUtil2 {
 
     /**
      * 读取mysql表中展现项，统计项，条件项等进行sql查询语句拼接
@@ -35,11 +35,13 @@ public class SqlUtil {
 		} else if (index[i].equals("filling")) {
 		    index[i] = "SUM(CASE WHEN advertisersId>0 THEN 1 ELSE 0 END) AS filling ";
 		} else if (index[i].equals("req")) {
-		    index[i] = "SUM(CASE WHEN reqType=1 THEN 1 ELSE 1 END) AS req ";
+		    index[i] = "SUM(CASE WHEN reqType=1 THEN 1 ELSE 0 END) AS req ";
 		} else if (index[i].equals("imp")) {
 		    index[i] = "SUM(CASE WHEN reqType=2 THEN 1 ELSE 0 END) AS imp ";
 		} else if (index[i].equals("click")) {
 		    index[i] = "SUM(CASE WHEN reqType=3 THEN 1 ELSE 0 END) AS click ";
+		} else if (index[i].equals("template")) {
+		    index[i] = "SUM(CASE WHEN reqType=4 THEN 1 ELSE 0 END) AS template ";
 		} else if (index[i].equals("unique_ip")) {
 		    index[i] = "COUNT(DISTINCT ip) AS unique_ip ";
 		} else if (index[i].equals("unique_uid")) {
@@ -69,8 +71,8 @@ public class SqlUtil {
 	    }
 	}
 	returnMap.put("resultField", resultField);
-	returnMap.put("display", String.valueOf(sqlMap.get("display")));
-	returnMap.put("dimension", String.valueOf(sqlMap.get("dimension")));
+	returnMap.put("index", String.valueOf(sqlMap.get("index")));
+	returnMap.put("grouption", String.valueOf(sqlMap.get("grouption")));
 	returnMap.put("extuceSql", builder.toString());
 	return returnMap;
     }
@@ -116,10 +118,18 @@ public class SqlUtil {
     
     public static void main(String args[]){
 	MysqlUtil mu = new MysqlUtil();
-	ArrayList<HashMap<String, Object>> list = mu.selectSql("select * from offline_basic_analysis.customize_report_info where status='N' ");
+	ArrayList<HashMap<String, Object>> list = mu.selectSql("select * from offline_basic_analysis.customize_report_info_copy where status='N' ");
 	for (final HashMap<String, Object> map : list) {
 	    HashMap<String, String> sqlMap=builderSql(map);
-	    System.out.println(sqlMap.get("extuceSql"));
+//	    System.out.println(sqlMap.get("extuceSql"));
+	    
+
+		String groupTop=sqlMap.get("grouption");
+		
+		
+		String orderBy=groupTop+","+sqlMap.get("index");
+		String topSql="set @row=0;set @mid='';SELECT a.* FROM offline_basic_analysis.report_"+map.get("id")+" AS a INNER JOIN (SELECT *, case when @mid =concat("+groupTop+") then @row:=@row+1 else @row:=1 end rownum, @mid:=concat("+groupTop+") mid FROM offline_basic_analysis.report_"+map.get("id")+" ORDER BY "+orderBy+" desc) b on b.id=a.id where b.rownum<=2";
+		System.out.println("==："+topSql);
 	}
     }
 }
