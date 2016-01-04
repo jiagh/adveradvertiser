@@ -46,6 +46,8 @@ public class Config {
 	public static final int ORGANIZA_INSERTSQL_NUM_PARTITIONS = Integer.parseInt(getString("ORGANIZA_INSERTSQL_NUM_PARTITIONS"));
 	// 合并日志REDUCE数量
 	public static final int MERGE_LOG_REDUCE_NUM = Integer.parseInt(getString("MERGE_LOG_REDUCE_NUM"));
+	// 合并日志PARTITIONS数量
+	public static final int MERGE_LOG_PARTITIONS_NUM = Integer.parseInt(getString("MERGE_LOG_PARTITIONS_NUM"));
 	// 报表单次分析文件数量
 	public static final int ANALYSIS_LOG_NUM = Integer.parseInt(getString("ANALYSIS_LOG_NUM"));
 	// 分隔符系列
@@ -54,6 +56,9 @@ public class Config {
 	public static final String REPORT_VALUE_DELIMITED = getString("REPORT_VALUE_DELIMITED");
 	// 分隔符系列
 	public static final String LOG_NAME_DELIMITER = getString("LOG_NAME_DELIMITER");
+	// 分隔符系列
+	public static final String HIVE_TABLE_DELIMITER = getString("HIVE_TABLE_DELIMITER");
+
 	// 日志分析目录
 	public static final String HDFS_ANALYSIS_WORK = getString("HDFS_ANALYSIS_WORK");
 	// 日志合并工作目录
@@ -62,6 +67,9 @@ public class Config {
 	public static final String HDFS_LOG_BAK = getString("HDFS_LOG_BAK");
 	// 从KAFKA到HDFS的临时目录
 	public static final String HDFS_LOG_KAFKA_NORMAL_LOG = getString("HDFS_LOG_KAFKA_NORMAL_LOG");
+	// 从KAFKA到HDFS的临时目录(HIVE格式)
+	public static final String HDFS_LOG_KAFKA_NORMAL_HIVEFORMAT = getString("HDFS_LOG_KAFKA_NORMAL_HIVEFORMAT");
+
 	// 从KAFKA到HDFS的临时目录
 	public static final String HDFS_LOGS_KAFKA_ERR_LOG = getString("HDFS_LOGS_KAFKA_ERR_LOG");
 	// 把KAFKA日志转移到可分析的目录下
@@ -72,10 +80,13 @@ public class Config {
 	public static final String HDFS_ANALYSIS_BATCH_LOG = getString("HDFS_ANALYSIS_BATCH_LOG");
 	// HIVE 路径
 	public static final String HIVE_COGTU_LOG_TABLE_PATH = getString("HIVE_COGTU_LOG_TABLE_PATH");
+	//
+	public static final String HIVE_COGTU_LOG_SPLIT_TABLE_NAME = getString("HIVE_COGTU_LOG_SPLIT_TABLE_NAME");
+
 	// HIVE 表名
 	public static final String HIVE_COGTU_LOG_TABLE_NAME = getString("HIVE_COGTU_LOG_TABLE_NAME");
 
 	public static void main(String[] args) {
-		System.out.println(HIVE_JDBC_ADDRESS);
+		System.out.println(HIVE_TABLE_DELIMITER);
 	}
 }
