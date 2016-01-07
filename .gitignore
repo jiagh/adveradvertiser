@@ -15,4 +15,3 @@ bin/.gitignore
 .settings/org.eclipse.core.resources.prefs
 /target/
 /bin/
-metastore_db/

@@ -16,17 +16,8 @@ import jgh.vo.CogtuLog1_1;
 import jgh.vo.ReqLog1_1;
 import scala.Tuple2;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class PageUrlInfo.
- */
 public class PageUrlInfo {
 
-    /**
-     * Page url detail info.
-     *
-     * @param args the args
-     */
     @SuppressWarnings("serial")
     public static void pageUrlDetailInfo(String args[]) {
 	SparkConf sparkConf = new SparkConf().setAppName("pageUrlTotal").setMaster("local[12]");
@@ -129,11 +120,6 @@ public class PageUrlInfo {
 	ctx.close();
     }
 
-    /**
-     * The main method.
-     *
-     * @param args the arguments
-     */
     public static void main(String args[]) {
 	pageUrlDetailInfo(args);
     }
