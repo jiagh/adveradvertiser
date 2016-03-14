@@ -38,7 +38,7 @@ public class HaoJaTest {
 			reDate += "40";
 		} else if (mm < 60) {
 			reDate += "50";
-		}
+		}    
 		return reDate;
 	}
 
@@ -147,7 +147,7 @@ public class HaoJaTest {
 			public Tuple2<String, String> call(Tuple2<String, Integer> t) throws Exception {
 				String tmp[] = t._1().split(Config.REPORT_KEY_DELIMITED);
 				return new Tuple2<String, String>(tmp[0], tmp[1] + Config.REPORT_KEY_DELIMITED + t._2());
-			}
+			} 
 		}).cache();
 
 		/**
